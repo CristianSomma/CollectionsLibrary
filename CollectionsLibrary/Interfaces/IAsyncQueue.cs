@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CollectionsLibrary.Interfaces
+{
+    public interface IAsyncQueue<T>
+    {
+        Task<T> Peek();
+        Task<T> Dequeue();
+        Task Enqueue(T item);
+    }
+}
