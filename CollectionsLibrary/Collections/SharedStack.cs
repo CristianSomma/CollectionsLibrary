@@ -1,27 +1,23 @@
 ﻿using CollectionsLibrary.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollectionsLibrary.Collections
 {
     public class SharedStack<T>
         : IAsyncContainer<T>, IAsyncStack<T>
     {
-        private CollectionsLibrary.Collections.Stack<T> _stack;
+        private Stack<T> _stack;
         private readonly SemaphoreSlim _mutex, _itemsAvailable;
         private readonly CancellationToken _token;
 
         public SharedStack(CancellationToken token = default)
         {
-            _stack = new CollectionsLibrary.Collections.Stack<T>();
+            _stack = new Stack<T>();
             _mutex = new SemaphoreSlim(1, 1);
             _itemsAvailable = new SemaphoreSlim(0);
             _token = token;
         }
 
+        #pragma warning disable CS8618
         public SharedStack(IEnumerable<T> items, CancellationToken token = default)
         {
             Build(items);
@@ -29,6 +25,7 @@ namespace CollectionsLibrary.Collections
             _itemsAvailable = new SemaphoreSlim(items.Count());
             _token = token;
         }
+        #pragma warning restore CS8618
 
         public void Build(IEnumerable<T> items)
         {
