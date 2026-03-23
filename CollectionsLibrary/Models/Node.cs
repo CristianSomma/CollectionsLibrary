@@ -1,6 +1,6 @@
 ﻿namespace CollectionsLibrary.Collections
 {
-    public class Node<T>
+    internal class Node<T>
     {
         private T _item;
         private Node<T>? _next;
