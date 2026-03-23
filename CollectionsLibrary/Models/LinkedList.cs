@@ -56,11 +56,19 @@ namespace CollectionsLibrary.Collections
             _size = 0;
         }
 
+        /// <summary>
+        /// Returns the number of items in the list.
+        /// </summary>
+        /// <returns>Returns the size.</returns>
         public int GetSize()
         {
             return _size;
         }
 
+        /// <summary>
+        /// Returns whether the list is empty or not.
+        /// </summary>
+        /// <returns>Returns true if it is empty or false if not.</returns>
         public bool IsEmpty()
         {
             return _size == 0;
@@ -95,7 +103,7 @@ namespace CollectionsLibrary.Collections
         /// <param name="index">The index where the new item will be inserted.</param>
         /// <param name="item">The new item to insert.</param>
         /// <exception cref="IndexOutOfRangeException">Thrown when the index is out of the list range.</exception>
-        public void InsertAt(int index, T item)
+        public virtual void InsertAt(int index, T item)
         {
             if (index == 0)
             {
@@ -114,7 +122,7 @@ namespace CollectionsLibrary.Collections
         /// </summary>
         /// <param name="index">The index of the item to remove.</param>
         /// <exception cref="IndexOutOfRangeException">Thrown when the index is out of the list range.</exception>
-        public void DeleteAt(int index)
+        public virtual void DeleteAt(int index)
         {
             if (index == 0)
             {
@@ -135,7 +143,7 @@ namespace CollectionsLibrary.Collections
         /// Inserts a new item at the first position in the list.
         /// </summary>
         /// <param name="item">The new item to insert.</param>
-        public void InsertFirst(T item)
+        public virtual void InsertFirst(T item)
         {
             _head = new Node<T>(item, _head);
             _size++;
@@ -145,7 +153,7 @@ namespace CollectionsLibrary.Collections
         /// Removes the first item in the list.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when the list is empty.</exception>
-        public void DeleteFirst()
+        public virtual void DeleteFirst()
         {
             if (IsEmpty())
                 throw new InvalidOperationException("Cannot delete from an empty list.");
@@ -159,7 +167,7 @@ namespace CollectionsLibrary.Collections
         /// Inserts the new item in the last position.
         /// </summary>
         /// <param name="item">The new item to insert.</param>
-        public void InsertLast(T item)
+        public virtual void InsertLast(T item)
         {
             if (IsEmpty())
             {
@@ -177,7 +185,7 @@ namespace CollectionsLibrary.Collections
         /// Removes the last item in the list.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when the list is empty.</exception>
-        public void DeleteLast()
+        public virtual void DeleteLast()
         {
             if (IsEmpty())
                 throw new InvalidOperationException("Cannot delete from an empty list.");
