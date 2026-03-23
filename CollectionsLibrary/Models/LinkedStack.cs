@@ -2,7 +2,7 @@
 
 namespace CollectionsLibrary.Collections
 {
-    public partial class Stack<T>
+    public partial class LinkedStack<T>
         : IContainer<T>, IStack<T>
     {
         private Node<T>? _top;
@@ -12,7 +12,7 @@ namespace CollectionsLibrary.Collections
         /// Default constructor.
         /// Creates a new empty stack. 
         /// </summary>
-        public Stack()
+        public LinkedStack()
         {
             _top = null;
             _size = 0;
@@ -23,7 +23,7 @@ namespace CollectionsLibrary.Collections
         /// Creates a new stack with the items in the IEnumerable object.
         /// </summary>
         /// <param name="items">A generic collection to copy in the stack.</param>
-        public Stack(IEnumerable<T> items)
+        public LinkedStack(IEnumerable<T> items)
         {
             Build(items);
         }

@@ -3,7 +3,7 @@ using CollectionsLibrary.Interfaces;
 
 namespace CollectionsLibrary.Collections
 {
-    public partial class Queue<T>
+    public partial class LinkedQueue<T>
         : IContainer<T>, IQueue<T>
     {
         private Node<T>? _front, _back;
@@ -13,7 +13,7 @@ namespace CollectionsLibrary.Collections
         /// Default constructor.
         /// Creates a new empty queue.
         /// </summary>
-        public Queue()
+        public LinkedQueue()
         {
             _front = null;
             _back = null;
@@ -25,7 +25,7 @@ namespace CollectionsLibrary.Collections
         /// Creates a new queue with the items in the IEnumerable object.
         /// </summary>
         /// <param name="items">A generic collection to copy in the queue.</param>
-        public Queue(IEnumerable<T> items)
+        public LinkedQueue(IEnumerable<T> items)
         {
             Build(items);
         }

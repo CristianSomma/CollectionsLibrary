@@ -115,7 +115,7 @@ namespace CollectionsLibrary.Collections
                 return;
             }
 
-            Queue<Node> nodesToVisit = new Queue<Node>();
+            LinkedQueue<Node> nodesToVisit = new LinkedQueue<Node>();
             nodesToVisit.Enqueue(_root!);
 
             while (nodesToVisit.GetSize() > 0)
@@ -153,7 +153,7 @@ namespace CollectionsLibrary.Collections
             Node lastNodeParent = _root;
             Node lastNode = _root;
 
-            Queue<Node> nodesToVisit = new Queue<Node>();
+            LinkedQueue<Node> nodesToVisit = new LinkedQueue<Node>();
             nodesToVisit.Enqueue(_root);
 
             while (nodesToVisit.GetSize() > 0)
@@ -190,7 +190,7 @@ namespace CollectionsLibrary.Collections
             if (IsEmpty())
                 yield break;
 
-            Queue<Node> nodesToVisit = new Queue<Node>();
+            LinkedQueue<Node> nodesToVisit = new LinkedQueue<Node>();
             nodesToVisit.Enqueue(_root!);
 
             while (nodesToVisit.GetSize() > 0)

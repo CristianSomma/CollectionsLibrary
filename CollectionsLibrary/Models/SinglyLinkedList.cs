@@ -8,7 +8,7 @@ using CollectionsLibrary.Interfaces;
 
 namespace CollectionsLibrary.Collections
 {
-    public class LinkedList<T>
+    public class SinglyLinkedList<T>
         : IContainer<T>, IStaticSequence<T>, IDynamicSequence<T>, ISearchableSequence<T>, IEnumerable<T>
     {
         private Node<T>? _head;
@@ -19,7 +19,7 @@ namespace CollectionsLibrary.Collections
         /// Default constructor.
         /// Creates a new empty list. 
         /// </summary>
-        public LinkedList()
+        public SinglyLinkedList()
         {
             _head = null;
             _size = 0;
@@ -30,7 +30,7 @@ namespace CollectionsLibrary.Collections
         /// Creates a new list with the items in the IEnumerable object.
         /// </summary>
         /// <param name="items">A generic collection to copy in the list.</param>
-        public LinkedList(IEnumerable<T> items)
+        public SinglyLinkedList(IEnumerable<T> items)
         {
             Build(items);
         }

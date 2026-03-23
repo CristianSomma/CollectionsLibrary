@@ -5,13 +5,13 @@ namespace CollectionsLibrary.Collections
     public class SharedStack<T>
         : IAsyncContainer<T>, IAsyncStack<T>
     {
-        private Stack<T> _stack;
+        private LinkedStack<T> _stack;
         private readonly SemaphoreSlim _mutex, _itemsAvailable;
         private readonly CancellationToken _token;
 
         public SharedStack(CancellationToken token = default)
         {
-            _stack = new Stack<T>();
+            _stack = new LinkedStack<T>();
             _mutex = new SemaphoreSlim(1, 1);
             _itemsAvailable = new SemaphoreSlim(0);
             _token = token;
@@ -29,7 +29,7 @@ namespace CollectionsLibrary.Collections
 
         public void Build(IEnumerable<T> items)
         {
-            _stack = new CollectionsLibrary.Collections.Stack<T>(items);
+            _stack = new CollectionsLibrary.Collections.LinkedStack<T>(items);
         }
 
         public async Task Clear()

@@ -6,7 +6,7 @@ namespace CollectionsLibrary.Collections
         : IAsyncContainer<T>, IAsyncQueue<T>
     {
         // coda usata dal wrapper
-        private Queue<T> _queue;
+        private LinkedQueue<T> _queue;
 
         // mutex per accesso alle azioni della coda e semaforo
         // che tiene conto di quanti sono gli elementi nella coda disponibili
@@ -15,7 +15,7 @@ namespace CollectionsLibrary.Collections
 
         public SharedQueue(CancellationToken token = default)
         {
-            _queue = new Queue<T>();
+            _queue = new LinkedQueue<T>();
             _mutex = new SemaphoreSlim(1, 1);
             _itemsAvailable = new SemaphoreSlim(0);
             _token = token;
@@ -33,7 +33,7 @@ namespace CollectionsLibrary.Collections
 
         public void Build(IEnumerable<T> items)
         {
-            _queue = new Queue<T>(items);
+            _queue = new LinkedQueue<T>(items);
         }
 
         public async Task Clear()
