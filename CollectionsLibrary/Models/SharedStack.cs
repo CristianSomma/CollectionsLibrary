@@ -17,7 +17,7 @@ namespace CollectionsLibrary.Collections
             _token = token;
         }
 
-        #pragma warning disable CS8618
+#pragma warning disable CS8618
         public SharedStack(IEnumerable<T> items, CancellationToken token = default)
         {
             Build(items);
@@ -25,7 +25,7 @@ namespace CollectionsLibrary.Collections
             _itemsAvailable = new SemaphoreSlim(items.Count());
             _token = token;
         }
-        #pragma warning restore CS8618
+#pragma warning restore CS8618
 
         public void Build(IEnumerable<T> items)
         {
@@ -46,13 +46,13 @@ namespace CollectionsLibrary.Collections
             }
         }
 
-        public async Task<int> GetLength()
+        public async Task<int> GetSize()
         {
             await _mutex.WaitAsync(_token);
 
             try
             {
-                return _stack.GetLength();
+                return _stack.GetSize();
             }
             finally
             {
@@ -125,7 +125,7 @@ namespace CollectionsLibrary.Collections
 
             try
             {
-                if (predicate(_stack.GetLength()))
+                if (predicate(_stack.GetSize()))
                 {
                     ClearAndReset();
                     return true;

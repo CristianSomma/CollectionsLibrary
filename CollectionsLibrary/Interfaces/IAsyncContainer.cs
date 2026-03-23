@@ -10,7 +10,7 @@ namespace CollectionsLibrary.Interfaces
     {
         void Build(IEnumerable<T> items);
         Task Clear();
-        Task<int> GetLength();
+        Task<int> GetSize();
         Task<bool> IsEmpty();
     }
 }

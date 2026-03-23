@@ -56,13 +56,13 @@ namespace CollectionsLibrary.Collections
             }
         }
 
-        public async Task<int> GetLength()
+        public async Task<int> GetSize()
         {
             await _mutex.WaitAsync(_token);
 
             try
             {
-                return _queue.GetLength();
+                return _queue.GetSize();
             }
             finally
             {
