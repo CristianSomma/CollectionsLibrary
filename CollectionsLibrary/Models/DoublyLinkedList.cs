@@ -7,13 +7,13 @@ namespace CollectionsLibrary.Collections
         : IContainer<T>, IStaticSequence<T>, IDynamicSequence<T>, ISearchableSequence<T>, IEnumerable<T>
     {
         private Node? _head, _tail;
-        private int _length;
+        private int _size;
 
         public DoublyLinkedList()
         {
             _head = null;
             _tail = null;
-            _length = 0;
+            _size = 0;
         }
 
         public DoublyLinkedList(IEnumerable<T> items)
@@ -24,29 +24,17 @@ namespace CollectionsLibrary.Collections
 
         public void Build(IEnumerable<T> items)
         {
-            Node? previousNode = null;
+            Clear();
 
             foreach (T item in items)
-            {
-                Node newNode = new Node(item, previous: previousNode);
-
-                _head ??= newNode;
-
-                if (previousNode is not null)
-                    previousNode.Next = newNode;
-
-                previousNode = newNode;
-                _length++;
-            }
-
-            _tail = previousNode;
+                InsertLast(item);
         }
 
         public void Clear()
         {
             _head = null;
             _tail = null;
-            _length = 0;
+            _size = 0;
         }
 
         public T GetAt(int index)
@@ -94,7 +82,7 @@ namespace CollectionsLibrary.Collections
                 _head = newNode;
 
             currentNode.Prev = newNode;
-            _length++;
+            _size++;
         }
 
         public void DeleteAt(int index)
@@ -126,7 +114,7 @@ namespace CollectionsLibrary.Collections
             else
                 _tail = previousNode;
 
-            _length--;
+            _size--;
         }
 
         public void InsertFirst(T item)
@@ -150,7 +138,7 @@ namespace CollectionsLibrary.Collections
                 _tail = newFirstNode;
 
             _head = newFirstNode;
-            _length++;
+            _size++;
         }
 
         public void DeleteFirst()
@@ -176,7 +164,7 @@ namespace CollectionsLibrary.Collections
             else
                 _tail = null;
 
-            _length--;
+            _size--;
         }
 
         public void InsertLast(T item)
@@ -199,7 +187,7 @@ namespace CollectionsLibrary.Collections
                 _head = newLastNode;
 
             _tail = newLastNode;
-            _length++;
+            _size++;
         }
 
         public void DeleteLast()
@@ -225,17 +213,17 @@ namespace CollectionsLibrary.Collections
             else
                 _head = null;
 
-            _length--;
+            _size--;
         }
 
         public bool IsEmpty()
         {
-            return _length == 0;
+            return _size == 0;
         }
 
         public int GetSize()
         {
-            return _length;
+            return _size;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -279,12 +267,12 @@ namespace CollectionsLibrary.Collections
              *      puntato da Next o da Prev
             */
 
-            if (index < 0 || index >= _length)
+            if (index < 0 || index >= _size)
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
 
             Node? currentNode = null;
 
-            if (index < _length / 2)
+            if (index < _size / 2)
             {
                 currentNode = _head;
 
@@ -295,7 +283,7 @@ namespace CollectionsLibrary.Collections
             {
                 currentNode = _tail;
 
-                for (int i = _length - 1; i > index; i--)
+                for (int i = _size - 1; i > index; i--)
                     currentNode = currentNode!.Prev;
             }
 
