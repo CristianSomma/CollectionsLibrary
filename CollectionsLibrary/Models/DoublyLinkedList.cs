@@ -233,7 +233,7 @@ namespace CollectionsLibrary.Collections
             return _length == 0;
         }
 
-        public int GetLength()
+        public int GetSize()
         {
             return _length;
         }
