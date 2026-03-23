@@ -136,8 +136,8 @@ namespace CollectionsLibrary.Collections
         {
             Node newFirstNode = new Node(item, next: _head);
 
-            if (_head is not null)
-                _head.Prev = newFirstNode;
+            if (!IsEmpty())
+                _head!.Prev = newFirstNode;
             else
                 _tail = newFirstNode;
 
@@ -172,8 +172,8 @@ namespace CollectionsLibrary.Collections
         {
             Node newLastNode = new Node(item, previous: _tail);
 
-            if (_tail is not null)
-                _tail.Next = newLastNode;
+            if (!IsEmpty())
+                _tail!.Next = newLastNode;
             else
                 _head = newLastNode;
 
