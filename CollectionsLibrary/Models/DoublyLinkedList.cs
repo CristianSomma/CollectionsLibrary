@@ -9,6 +9,10 @@ namespace CollectionsLibrary.Collections
         private Node? _head, _tail;
         private int _size;
 
+        /// <summary>
+        /// Default constructor.
+        /// Creates a new empty list. 
+        /// </summary>
         public DoublyLinkedList()
         {
             _head = null;
@@ -16,12 +20,21 @@ namespace CollectionsLibrary.Collections
             _size = 0;
         }
 
+        /// <summary>
+        /// Constructor with parameters.
+        /// Creates a new list with the items in the IEnumerable object.
+        /// </summary>
+        /// <param name="items">A generic collection to copy in the list.</param>
         public DoublyLinkedList(IEnumerable<T> items)
             : this()
         {
             Build(items);
         }
 
+        /// <summary>
+        /// Overwrites the existing list with the items of the IEnumerable object
+        /// </summary>
+        /// <param name="items">A generic collection to copy in the list.</param>
         public void Build(IEnumerable<T> items)
         {
             Clear();
@@ -30,6 +43,10 @@ namespace CollectionsLibrary.Collections
                 InsertLast(item);
         }
 
+
+        /// <summary>
+        /// Clears the list, emptying it.
+        /// </summary>
         public void Clear()
         {
             _head = null;
@@ -37,37 +54,36 @@ namespace CollectionsLibrary.Collections
             _size = 0;
         }
 
+        /// <summary>
+        /// Returns the element at a given index.
+        /// </summary>
+        /// <param name="index">Index of the element to retrieve.</param>
+        /// <returns></returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown when the index is out of the list range.</exception>
         public T GetAt(int index)
         {
-            Node node = GetNodeAt(index)
-                ?? throw new IndexOutOfRangeException();
-
-            return node.Item;
+            return GetNodeAt(index).Item;
         }
 
+        /// <summary>
+        /// Replaces the item at the given index with the new item.
+        /// </summary>
+        /// <param name="index">The index of the item to replace</param>
+        /// <param name="newItem">The new item that will replace the one at the given index.</param>
+        /// <exception cref="IndexOutOfRangeException">Thrown when the index is out of the list range.</exception>
         public void SetAt(int index, T newItem)
         {
-            Node node = GetNodeAt(index)
-                ?? throw new IndexOutOfRangeException();
-
-            node.Item = newItem;
+            GetNodeAt(index).Item = newItem;
         }
 
-        public void InsertAt(int index, T item)
+        /// <summary>
+        /// Inserts a new item at the given index.
+        /// </summary>
+        /// <param name="index">The index where the new item will be inserted.</param>
+        /// <param name="item">The new item to insert.</param>
+        /// <exception cref="IndexOutOfRangeException">Thrown when the index is out of the list range.</exception>
+        public virtual void InsertAt(int index, T item)
         {
-            /*
-             * -> Ottiene il nodo corrente all'indice dato, se è fuori dai limiti lancia un'eccezione
-             * 
-             * -> Ottiene poi il nodo precedente a quello corrente, se presente, tramite il puntatore
-             *
-             * -> Crea il nuovo nodo, con come nodo precedente quello prima di quello corrente 
-             *    e come nodo successivo quello corrente.
-             *    
-             * -> Se il nodo precedente non è null (quindi il nuovo nodo non è il primo della lista):
-             *      - Allora fa puntare il suo nodo successivo a quello nuovo
-             *      - Altrimenti non ci sono nodi precedenti quindi il nuovo nodo sarà puntato da head.
-             */
-
             Node currentNode = GetNodeAt(index);
             Node? previousNode = currentNode.Prev;
 
@@ -76,6 +92,9 @@ namespace CollectionsLibrary.Collections
                 previous: previousNode,
                 next: currentNode);
 
+            // Se il nodo precedente puntato da quello nella posizione dell'indice dato
+            // non è null, allora avrà come nodo successivo quello nuovo, altrimenti
+            // significa che il nodo nuovo è il primo nella lista, e sarà puntato da head.
             if (previousNode is not null)
                 previousNode.Next = newNode;
             else
@@ -85,21 +104,13 @@ namespace CollectionsLibrary.Collections
             _size++;
         }
 
-        public void DeleteAt(int index)
+        /// <summary>
+        /// Removes the item at a given index.
+        /// </summary>
+        /// <param name="index">The index of the item to remove.</param>
+        /// <exception cref="IndexOutOfRangeException">Thrown when the index is out of the list range.</exception>
+        public virtual void DeleteAt(int index)
         {
-            /*
-             * -> Si ottiene il nodo ad eliminare dato l'indice
-             * 
-             * -> Si salvano i nodi precedente e successivo a quello da eliminare
-             * 
-             * -> Se il nodo precedente non è null (quindi non è il primo elemento della lista):
-             *      - Allora il nodo precedente avrà come prossimo nodo il riferimento al nodo successivo
-             *        a quello da eliminare
-             *      - Altrimenti se è primo nella lista, head punta al nodo successivo a quello da eliminare
-             *      
-             * -> Stesso ragionamento per il nodo successivo a quello da eliminare...
-             */
-
             Node nodeToDelete = GetNodeAt(index);
             Node? previousNode = nodeToDelete.Prev;
             Node? nextNode = nodeToDelete.Next;
@@ -117,19 +128,12 @@ namespace CollectionsLibrary.Collections
             _size--;
         }
 
-        public void InsertFirst(T item)
+        /// <summary>
+        /// Inserts a new item at the first position in the list.
+        /// </summary>
+        /// <param name="item">The new item to insert.</param>
+        public virtual void InsertFirst(T item)
         {
-            /*
-             * -> Crea il nuovo nodo che sarà in prima posizione, che ha come nodo successivo
-             *    lo stesso nodo puntato da head (se c'é già almeno un nodo)
-             *
-             * -> Se head punta ad un nodo esistente:
-             *      - allora quel nodo avrà come nodo precedente il nodo 
-             *      appena creato (che diventerà il nuovo head)
-             *      - altrimenti se il nodo head è null, significa che la lista è vuota, quindi 
-             *      anche head dovrà puntare al nuovo nodo (unico nella lista)
-             */
-
             Node newFirstNode = new Node(item, next: _head);
 
             if (_head is not null)
@@ -141,19 +145,12 @@ namespace CollectionsLibrary.Collections
             _size++;
         }
 
-        public void DeleteFirst()
+        /// <summary>
+        /// Removes the first item in the list.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when the list is empty.</exception>
+        public virtual void DeleteFirst()
         {
-            /*
-             * -> Se la lista è vuota, lancia un'eccezione
-             *
-             * -> Head ora punta al nodo che si trovava nel suo puntatore al nodo successivo
-             * 
-             * -> Se ora head non è null (quindi c'é almeno un altro elemento 
-             *    davanti a cui punta tail):
-             *      - resetta a null il puntatore al nodo precedente, facendo si che venga perso il vecchio head
-             *      - altrimenti se head è null, significa che la lista è vuota e quindi anche tail diventa null
-             */
-
             if (IsEmpty())
                 throw new InvalidOperationException("Cannot delete from empty list.");
 
@@ -167,18 +164,12 @@ namespace CollectionsLibrary.Collections
             _size--;
         }
 
-        public void InsertLast(T item)
+        /// <summary>
+        /// Inserts the new item in the last position.
+        /// </summary>
+        /// <param name="item">The new item to insert.</param>
+        public virtual void InsertLast(T item)
         {
-            /*
-             * -> Si crea il nuovo nodo che avrà come nodo precedente l'ultimo elemento corrente
-             * 
-             * -> Se c'é già un ultimo elemento allora quest'ultimo avrà come nodo 
-             *    successivo il nuovo nodo
-             * 
-             * -> Se non c'é un ultimo elemento (quindi lista vuota) il nuovo elemento sarà puntato anche 
-             *    da head
-             */
-
             Node newLastNode = new Node(item, previous: _tail);
 
             if (_tail is not null)
@@ -190,19 +181,12 @@ namespace CollectionsLibrary.Collections
             _size++;
         }
 
-        public void DeleteLast()
+        /// <summary>
+        /// Removes the last item in the list.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when the list is empty.</exception>
+        public virtual void DeleteLast()
         {
-            /*
-             * -> Se la lista è già vuota, si lancia un'eccezzione (non c'é nulla da rimuovere)
-             * 
-             * -> Si prende il nodo precedente all'ultimo
-             * 
-             * -> Se non è null (quindi il nodo puntato da tail non è 
-             * lo stesso puntato da head, che sarebbe l'unico elemento):
-             *      - Allora next diventa null (perché diventa l'ultimo elemento)
-             *      - Altrimenti anche head diventa null, perché la lista ora è vuota
-             */
-
             if (IsEmpty())
                 throw new InvalidOperationException("Cannot delete from empty list.");
 
@@ -216,11 +200,19 @@ namespace CollectionsLibrary.Collections
             _size--;
         }
 
+        /// <summary>
+        /// Returns whether the list is empty or not.
+        /// </summary>
+        /// <returns>Returns true if it is empty or false if not.</returns>
         public bool IsEmpty()
         {
             return _size == 0;
         }
 
+        /// <summary>
+        /// Returns the number of items in the list.
+        /// </summary>
+        /// <returns>Returns the size.</returns>
         public int GetSize()
         {
             return _size;
@@ -242,6 +234,10 @@ namespace CollectionsLibrary.Collections
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns the items of the list reversed.
+        /// </summary>
+        /// <returns>Item per item from the end of the list.</returns>
         public IEnumerable<T> Reverse()
         {
             Node? currentNode = _tail;
@@ -262,7 +258,7 @@ namespace CollectionsLibrary.Collections
              *     - Se è sotto: Parte dalla testa e incrementa
              *     - Se è sopra: Parte dalla coda e decrementa
              *
-             * ! -> Il doppio è preferibile perché su una grande mole
+             * ! -> Il doppio blocco for è preferibile perché su una grande mole
              *      di dati è più efficiente di un if che sceglie se andare al nodo
              *      puntato da Next o da Prev
             */
@@ -270,7 +266,7 @@ namespace CollectionsLibrary.Collections
             if (index < 0 || index >= _size)
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
 
-            Node? currentNode = null;
+            Node? currentNode;
 
             if (index < _size / 2)
             {
@@ -290,22 +286,28 @@ namespace CollectionsLibrary.Collections
             return currentNode!;
         }
 
+        /// <summary>
+        /// Searches the index of the first item that is equal to the given item.
+        /// </summary>
+        /// <param name="item">Item to confront to.</param>
+        /// <returns>The index of the item or -1 if no item is equal to the given one.</returns>
         public int FindIndex(T item)
         {
             return FindIndex(currentItem =>
             {
+                // confronta ogni elemento corrente con quello del parametro usando 
+                // l'uguaglianza di default del tipo T ('==' o '.Equals()')
                 return EqualityComparer<T>.Default.Equals(currentItem, item);
             });
         }
 
+        /// <summary>
+        /// Returns the index of the first item that respects the predicate condition.
+        /// </summary>
+        /// <param name="predicate">The function containing the condition required.</param>
+        /// <returns>The index or -1 if no item respects the condition.</returns>
         public int FindIndex(Predicate<T> predicate)
         {
-            /*
-             * -> Itera tutta la lista partendo da Head
-             *
-             * -> Quando il delegato con parametro l'elemento corrente
-             *    ritorna true, ritorna l'indice di quell'elemento.
-            */
             int index = 0;
             foreach (T currentItem in this)
             {
@@ -318,89 +320,14 @@ namespace CollectionsLibrary.Collections
             return -1;
         }
 
+        /// <summary>
+        /// Returns whether the item searched is contained in the list or not.
+        /// </summary>
+        /// <param name="item">Item to search.</param>
+        /// <returns>True if the item is found, otherwise false.</returns>
         public bool Contains(T item)
         {
-            // semplice wrapper di FindIndex, se l'indice
-            // non è -1 allora l'elemento è contenuto
             return FindIndex(item) != -1;
-        }
-
-        public List<T> ToList()
-        {
-            var list = new List<T>();
-
-            foreach (T item in this)
-            {
-                list.Add(item);
-            }
-
-            return list;
-        }
-
-        public void InsertionSort(Func<T, T, bool> shouldComeBefore)
-        {
-            /*
-             * -> Se la lista è vuota o ha un solo elemento, è già ordinata.
-             *
-             * -> Per ogni nodo della lista originale, si salva il prossimo
-             *    prima di modificare i puntatori.
-             *
-             * -> Si cerca la posizione corretta in sortedList:
-             *      - Se è vuota o il corrente viene prima del nodo puntato da head:
-             *        diventa la il nuovo nodo puntato da head di sortedList.
-             *      - Altrimenti si scorre sortedList con un iteratore fino
-             *        alla posizione giusta e si inserisce il nodo aggiornando
-             *        i puntatori al nodo precedente e successivo.
-             *
-             * -> Alla fine si aggiornano Head e tail.
-             */
-
-            if (_head == null || _head.Next == null)
-                return;
-
-            Node? sortedList = null;
-            Node? current = _head;
-
-            while (current != null)
-            {
-                Node? next = current.Next;
-
-                if (sortedList == null || shouldComeBefore(current.Item, sortedList.Item))
-                {
-                    current.Next = sortedList;
-                    current.Prev = null;
-
-                    if (sortedList != null)
-                        sortedList.Prev = current;
-
-                    sortedList = current;
-                }
-                else
-                {
-                    Node iterator = sortedList;
-
-                    while (iterator.Next != null &&
-                        !shouldComeBefore(current.Item, iterator.Next.Item))
-                        iterator = iterator.Next;
-
-                    current.Next = iterator.Next;
-                    current.Prev = iterator;
-
-                    if (iterator.Next != null)
-                        iterator.Next.Prev = current;
-
-                    iterator.Next = current;
-                }
-
-                current = next;
-            }
-
-            _head = sortedList;
-
-            _tail = _head;
-
-            while (_tail!.Next != null)
-                _tail = _tail.Next;
         }
     }
 }
